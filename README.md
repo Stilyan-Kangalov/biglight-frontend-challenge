@@ -88,24 +88,24 @@ To switch brands, wrap components in a container with the brand class:
 
 ```bash
 # Install dependencies
-pnpm install
+npm install
 
 # Start Storybook
-pnpm storybook
+npm run storybook
 
 # Run development server
-pnpm dev
+npm run dev
 ```
 
 ### Scripts
 
 | Command | Description |
 |---------|-------------|
-| `pnpm dev` | Start Vite development server |
-| `pnpm build` | Build for production |
-| `pnpm storybook` | Start Storybook on port 6006 |
-| `pnpm build-storybook` | Build static Storybook |
-| `pnpm test` | Run tests |
+| `npm run dev` | Start Vite development server |
+| `npm run build` | Build for production |
+| `npm run storybook` | Start Storybook on port 6006 |
+| `npm run build-storybook` | Build static Storybook |
+| `npm run test` | Run tests |
 
 ## Tech Stack
 
@@ -113,7 +113,7 @@ pnpm dev
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) + [CVA](https://cva.style/) for variant management
 - **Documentation**: [Storybook](https://storybook.js.org/) 8.x
 - **Build Tool**: [Vite](https://vitejs.dev/)
-- **Language**: TypeScript
+- **Language**: TypeScript, CSS, JavaScript, HTML
 
 ## Design Tokens
 
