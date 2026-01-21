@@ -117,15 +117,6 @@ export const Venus: Story = {
   } as any,
 };
 
-// Wrapper component to simulate focused state
-const FocusedDropdown = ({ brand, ...props }: any) => {
-  return (
-    <div className="[&_.dropdown-container]:border-[var(--dropdown-border)] [&_.dropdown-container]:ring-1 [&_.dropdown-container]:ring-[var(--dropdown-border)]">
-      <Dropdown {...props} brand={brand} />
-    </div>
-  );
-};
-
 export const AllStates: Story = {
   render: () => {
     // Brand A (Booker) state
@@ -143,8 +134,8 @@ export const AllStates: Story = {
     const [venusSelected, setVenusSelected] = useState<string | undefined>('retail');
 
     return (
-    <div className="p-8 bg-white min-h-screen">
-      <div className="grid grid-cols-2 gap-8">
+    <div className="p-8 bg-white min-h-screen max-w-full overflow-x-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       {/* Brand A - Booker */}
       <div className="brand-booker space-y-8">
         <div>

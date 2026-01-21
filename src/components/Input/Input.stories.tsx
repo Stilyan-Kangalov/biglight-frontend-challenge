@@ -123,8 +123,8 @@ export const AllStates: Story = {
     const [venusSuccess, setVenusSuccess] = useState<string>('Placeholder');
 
     return (
-    <div className="p-8 bg-white min-h-screen">
-      <div className="grid grid-cols-2 gap-8">
+    <div className="p-8 bg-white min-h-screen max-w-full overflow-x-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       {/* Brand A - Booker */}
       <div className="brand-booker space-y-8">
         <div>
