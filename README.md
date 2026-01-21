@@ -4,6 +4,8 @@ A multi-brand design system built with Preact, Tailwind CSS, and Storybook. This
 
 ![Login Magic Link Component - Booker Brand](./docs/login-magic-link-booker.png)
 
+> 📖 **Want to understand our technical approach?** Read our comprehensive [**APPROACH.md**](./APPROACH.md) documentation covering design-to-code workflow, token management, theme switching, and more.
+
 ## Overview
 
 This component library implements a **design token-driven architecture** that allows the same components to render differently based on brand context. The system supports two brands:
