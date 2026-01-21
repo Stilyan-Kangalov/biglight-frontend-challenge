@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  button {
+    background-color: white;
+  }
+}
+
+/* Generic CSS variables that map to brand-specific variables */
+/* These allow Tailwind to work with both brands by providing a consistent API */
+
+/* Brand A mappings */
+.brand-booker {
+  --color-primary-lightest: var(--aliasColoursBrandAPrimaryLightest);
+  --color-primary-lighter: var(--aliasColoursBrandAPrimaryLighter);
+  --color-primary-light: var(--aliasColoursBrandAPrimaryLight);
+  --color-primary-default: var(--aliasColoursBrandAPrimaryDefault);
+  --color-primary-dark: var(--aliasColoursBrandAPrimaryDark);
+  --color-primary-darkest: var(--aliasColoursBrandAPrimaryDarkest);
+  --color-primary-aaa-text: var(--aliasColoursBrandAPrimaryAaaText);
+  --color-primary-aaa-surface: var(--aliasColoursBrandAPrimaryAaaSurface);
+  
+  --color-secondary-default: var(--aliasColoursBrandASecondaryDefault);
+  --color-secondary-dark: var(--aliasColoursBrandASecondaryDark);
+  --color-secondary-darker: var(--aliasColoursBrandASecondaryDarker);
+  --color-secondary-darkest: var(--aliasColoursBrandASecondaryDarkest);
+  
+  --color-tertiary-lighter: var(--aliasColoursBrandATertiaryLighter);
+  --color-tertiary-light: var(--aliasColoursBrandATertiaryLight);
+  --color-tertiary-default: var(--aliasColoursBrandATertiaryDefault);
+  --color-tertiary-dark: var(--aliasColoursBrandATertiaryDark);
+  --color-tertiary-darker: var(--aliasColoursBrandATertiaryDarker);
+  
+  --color-accent-default: var(--aliasColoursBrandAAccentDefault);
+  
+  --color-success-light: var(--aliasColoursBrandAPositiveLight);
+  --color-success-default: var(--aliasColoursBrandAPositiveDefault);
+  --color-success-dark: var(--aliasColoursBrandAPositiveDark);
+  
+  --color-error-light: var(--aliasColoursBrandAErrorLight);
+  --color-error-default: var(--aliasColoursBrandAErrorDefault);
+  --color-error-dark: var(--aliasColoursBrandAErrorDark);
+  
+  --color-warning-light: var(--aliasColoursBrandAWarningLight);
+  --color-warning-default: var(--aliasColoursBrandAWarningDefault);
+  --color-warning-dark: var(--aliasColoursBrandAWarningDark);
+  
+  --color-info-light: var(--aliasColoursBrandAInformationLight);
+  --color-info-default: var(--aliasColoursBrandAInformationDefault);
+  --color-info-dark: var(--aliasColoursBrandAInformationDark);
+  
+  --color-neutral-lightest: var(--aliasColoursBrandANeutralLightest);
+  --color-neutral-lighter: var(--aliasColoursBrandANeutralLighter);
+  --color-neutral-light: var(--aliasColoursBrandANeutralLight);
+  --color-neutral-default: var(--aliasColoursBrandANeutralDefault);
+  --color-neutral-dark: var(--aliasColoursBrandANeutralDark);
+  --color-neutral-darker: var(--aliasColoursBrandANeutralDarker);
+  --color-neutral-darkest: var(--aliasColoursBrandANeutralDarkest);
+  --color-neutral-black: var(--aliasColoursBrandANeutralBlack);
+  --color-neutral-white: var(--aliasColoursBrandANeutralWhite);
+  --color-neutral-white-10: var(--aliasColoursBrandANeutralWhite10);
+  --color-neutral-white-20: var(--aliasColoursBrandANeutralWhite20);
+  --color-neutral-white-30: var(--aliasColoursBrandANeutralWhite30);
+  --color-neutral-white-50: var(--aliasColoursBrandANeutralWhite50);
+  --color-neutral-white-80: var(--aliasColoursBrandANeutralWhite80);
+  --color-neutral-black-10: var(--aliasColoursBrandANeutralBlack10);
+  --color-neutral-black-20: var(--aliasColoursBrandANeutralBlack20);
+  --color-neutral-black-30: var(--aliasColoursBrandANeutralBlack30);
+  --color-neutral-black-40: var(--aliasColoursBrandANeutralBlack40);
+  --color-neutral-black-50: var(--aliasColoursBrandANeutralBlack50);
+  --color-neutral-black-80: var(--aliasColoursBrandANeutralBlack80);
+}
+
+/* Brand B mappings */
+.brand-venus {
+  --color-primary-lightest: var(--aliasColoursBrandBPrimaryLightest);
+  --color-primary-lighter: var(--aliasColoursBrandBPrimaryLighter);
+  --color-primary-light: var(--aliasColoursBrandBPrimaryLight);
+  --color-primary-default: var(--aliasColoursBrandBPrimaryDefault);
+  --color-primary-dark: var(--aliasColoursBrandBPrimaryDark);
+  --color-primary-darkest: var(--aliasColoursBrandBPrimaryDarkest);
+  --color-primary-aaa-text: var(--aliasColoursBrandBPrimaryAaaText);
+  --color-primary-aaa-surface: var(--aliasColoursBrandBPrimaryAaaSurface);
+  
+  --color-secondary-default: var(--aliasColoursBrandBSecondaryDefault);
+  --color-secondary-dark: var(--aliasColoursBrandBSecondaryDark);
+  --color-secondary-darker: var(--aliasColoursBrandBSecondaryDarker);
+  --color-secondary-darkest: var(--aliasColoursBrandBSecondaryDarkest);
+  
+  --color-tertiary-lighter: var(--aliasColoursBrandBTertiaryLighter);
+  --color-tertiary-light: var(--aliasColoursBrandBTertiaryLight);
+  --color-tertiary-default: var(--aliasColoursBrandBTertiaryDefault);
+  --color-tertiary-dark: var(--aliasColoursBrandBTertiaryDark);
+  --color-tertiary-darker: var(--aliasColoursBrandBTertiaryDarker);
+  
+  --color-accent-default: var(--aliasColoursBrandBAccentDefault);
+  
+  --color-success-light: var(--aliasColoursBrandBPositiveLight);
+  --color-success-default: var(--aliasColoursBrandBPositiveDefault);
+  --color-success-dark: var(--aliasColoursBrandBPositiveDark);
+  
+  --color-error-light: var(--aliasColoursBrandBErrorLight);
+  --color-error-default: var(--aliasColoursBrandBErrorDefault);
+  --color-error-dark: var(--aliasColoursBrandBErrorDark);
+  
+  --color-warning-light: var(--aliasColoursBrandBWarningLight);
+  --color-warning-default: var(--aliasColoursBrandBWarningDefault);
+  --color-warning-dark: var(--aliasColoursBrandBWarningDark);
+  
+  --color-info-light: var(--aliasColoursBrandBInformationLight);
+  --color-info-default: var(--aliasColoursBrandBInformationDefault);
+  --color-info-dark: var(--aliasColoursBrandBInformationDark);
+  
+  --color-neutral-lightest: var(--aliasColoursBrandBNeutralLightest);
+  --color-neutral-lighter: var(--aliasColoursBrandBNeutralLighter);
+  --color-neutral-light: var(--aliasColoursBrandBNeutralLight);
+  --color-neutral-default: var(--aliasColoursBrandBNeutralDefault);
+  --color-neutral-dark: var(--aliasColoursBrandBNeutralDark);
+  --color-neutral-darker: var(--aliasColoursBrandBNeutralDarker);
+  --color-neutral-darkest: var(--aliasColoursBrandBNeutralDarkest);
+  --color-neutral-black: var(--aliasColoursBrandBNeutralBlack);
+  --color-neutral-white: var(--aliasColoursBrandBNeutralWhite);
+  --color-neutral-white-10: var(--aliasColoursBrandBNeutralWhite10);
+  --color-neutral-white-20: var(--aliasColoursBrandBNeutralWhite20);
+  --color-neutral-white-30: var(--aliasColoursBrandBNeutralWhite30);
+  --color-neutral-white-50: var(--aliasColoursBrandBNeutralWhite50);
+  --color-neutral-white-80: var(--aliasColoursBrandBNeutralWhite80);
+  --color-neutral-black-10: var(--aliasColoursBrandBNeutralBlack10);
+  --color-neutral-black-20: var(--aliasColoursBrandBNeutralBlack20);
+  --color-neutral-black-30: var(--aliasColoursBrandBNeutralBlack30);
+  --color-neutral-black-40: var(--aliasColoursBrandBNeutralBlack40);
+  --color-neutral-black-50: var(--aliasColoursBrandBNeutralBlack50);
+  --color-neutral-black-80: var(--aliasColoursBrandBNeutralBlack80);
+}

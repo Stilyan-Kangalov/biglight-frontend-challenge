@@ -1,0 +1,103 @@
+
+.brand-booker {
+  /* Button variables - mapped to Brand A design tokens */
+  --btn-primary-bg: var(--mappedBrandASurfaceColourActionPrimary);
+  --btn-primary-text: var(--mappedBrandATextColourActionOnPrimary);
+  --btn-primary-text-hover: var(--mappedBrandATextColourActionInverse);
+  --btn-primary-hover: var(--mappedBrandASurfaceColourActionHoverPrimary);
+  
+  --btn-secondary-bg: var(--mappedBrandASurfaceColourActionSecondary);
+  --btn-secondary-border: var(--primitivesDefaultColourBrandBrandAOrange800);
+  --btn-secondary-text: var(--mappedBrandATextColourActionOnSecondary);
+  --btn-secondary-text-hover: var(--mappedBrandATextColourActionOnPrimary);
+  --btn-secondary-hover: var(--mappedBrandASurfaceColourActionHoverSecondary);
+  
+  --btn-tertiary-text: var(--mappedBrandATextColourActionOnTertiary);
+  
+  --btn-disabled-bg: var(--mappedBrandASurfaceColourDisabledDark);
+  --btn-disabled-text: var(--mappedBrandATextColourDisabled);
+  --btn-radius: calc(var(--mappedBrandABorderRadiusXxl) * 1px);
+
+  /* Card variables - mapped to Brand A design tokens */
+  --card-bg: var(--aliasColoursBrandAPrimaryDefault);
+  --card-text: var(--mappedBrandATextColourInverse);
+  --card-radius: calc(var(--mappedBrandABorderRadiusXl) * 1px);
+
+  /* Dropdown variables - mapped to Brand A design tokens */
+  --dropdown-border: var(--mappedBrandABorderColourPassive);
+  --dropdown-label: var(--aliasColoursBrandANeutralDark);
+  --dropdown-required-asterisk: var(--aliasColoursBrandAWarningDefault);
+  --dropdown-required-text: var(--aliasColoursBrandANeutralDefault);
+  --dropdown-icon-active: var(--mappedBrandAIconColourActionActive);
+  --dropdown-selected-bg: var(--primitivesDefaultColourBrandBrandAPaper1000);
+  --dropdown-disabled-bg: var(--primitivesDefaultColourBrandBrandAPaper1100);
+  --dropdown-disabled-text: var(--mappedBrandATextColourDisabled);
+  --dropdown-disabled-icon: var(--mappedBrandAIconColourActionDisabled);
+  --dropdown-item-hover-bg: var(--primitivesDefaultColourBrandBrandAPaper1000);
+
+  /* Input variables - mapped to Brand A design tokens */
+  --input-border: var(--mappedBrandABorderColourPassive);
+  --input-focus-border: var(--mappedBrandABorderColourPassive);
+  --input-label: var(--aliasColoursBrandANeutralDark);
+  --input-required-asterisk: var(--aliasColoursBrandAWarningDefault);
+  --input-required-text: var(--aliasColoursBrandANeutralDefault);
+  --input-icon-active: var(--mappedBrandAIconColourActionActive);
+  --input-filled-bg: var(--primitivesDefaultColourBrandBrandAPaper1000);
+  --input-disabled-bg: var(--primitivesDefaultColourBrandBrandAPaper1100);
+  --input-disabled-text: var(--mappedBrandATextColourDisabled);
+  --input-disabled-icon: var(--mappedBrandAIconColourActionDisabled);
+  --input-error-border: var(--aliasColoursBrandAErrorDefault);
+  --input-success-border: var(--aliasColoursBrandAPositiveDefault);
+}
+
+.brand-venus {
+  /* Button variables - mapped to Brand B design tokens */
+  --btn-primary-bg: var(--mappedBrandBSurfaceColourActionPrimary);
+  --btn-primary-text: var(--mappedBrandBTextColourActionOnPrimary);
+  --btn-primary-text-hover: var(--mappedBrandBTextColourActionOnPrimary);
+  --btn-primary-hover: var(--mappedBrandBSurfaceColourActionHoverPrimary);
+  
+  --btn-secondary-bg: var(--mappedBrandBSurfaceColourActionHoverPrimary);
+  --btn-secondary-border: var(--primitivesDefaultColourBrandBrandBCherry800);
+  --btn-secondary-text: var(--mappedBrandBTextColourActionOnSecondary);
+  --btn-secondary-text-hover: var(--mappedBrandBTextColourActionOnSecondary);
+  --btn-secondary-hover: var(--mappedBrandBSurfaceColourActionHoverSecondary);
+  
+  --btn-tertiary-text: var(--mappedBrandBTextColourActionOnTertiary);
+  
+  --btn-disabled-bg: var(--mappedBrandBSurfaceColourDisabledDark);
+  --btn-disabled-text: var(--mappedBrandBTextColourDisabled);
+  
+  --btn-radius: calc(var(--mappedBrandBBorderWidthXl) * 10px);
+
+  /* Card variables - mapped to Brand B design tokens */
+  --card-bg: var(--aliasColoursBrandBPrimaryDefault);
+  --card-text: var(--mappedBrandBTextColourInverse);
+  --card-radius: 20px;
+
+  /* Dropdown variables - mapped to Brand B design tokens */
+  --dropdown-border: var(--mappedBrandBBorderColourPassive);
+  --dropdown-label: var(--mappedBrandBTextColourBrand);
+  --dropdown-required-asterisk: var(--aliasColoursBrandBWarningDefault);
+  --dropdown-required-text: var(--aliasColoursBrandBNeutralDefault);
+  --dropdown-icon-active: var(--mappedBrandBIconColourActionActive);
+  --dropdown-selected-bg: var(--mappedBrandBSurfaceColourActionSelected);
+  --dropdown-disabled-bg: var(--mappedBrandBSurfaceColourDisabledDark);
+  --dropdown-disabled-text: var(--mappedBrandBTextColourDisabled);
+  --dropdown-disabled-icon: var(--mappedBrandBIconColourActionDisabled);
+  --dropdown-item-hover-bg: var(--mappedBrandBSurfaceColourActionSelected);
+
+  /* Input variables - mapped to Brand B design tokens */
+  --input-border: var(--mappedBrandBBorderColourPassive);
+  --input-focus-border: var(--mappedBrandBBorderColourSelected);
+  --input-label: var(--aliasColoursBrandBNeutralDark);
+  --input-required-asterisk: var(--aliasColoursBrandBWarningDefault);
+  --input-required-text: var(--aliasColoursBrandBNeutralDefault);
+  --input-icon-active: var(--mappedBrandBIconColourActionActive);
+  --input-filled-bg: var(--mappedBrandBSurfaceColourActionSelected);
+  --input-disabled-bg: var(--mappedBrandBSurfaceColourDisabledDark);
+  --input-disabled-text: var(--mappedBrandBTextColourDisabled);
+  --input-disabled-icon: var(--mappedBrandBIconColourActionDisabled);
+  --input-error-border: var(--mappedBrandBBorderColourSelected);
+  --input-success-border: var(--aliasColoursBrandBPositiveDefault);
+}
