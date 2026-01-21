@@ -106,6 +106,7 @@ npm run dev
 | `npm run storybook` | Start Storybook on port 6006 |
 | `npm run build-storybook` | Build static Storybook |
 | `npm run test` | Run tests |
+| `node build-tokens.js` | Regenerate CSS tokens from Figma export |
 
 ## Tech Stack
 
@@ -117,12 +118,55 @@ npm run dev
 
 ## Design Tokens
 
-Design tokens are exported from Figma and transformed into CSS custom properties. The token pipeline:
+Design tokens are exported from Figma and transformed into CSS custom properties using [Style Dictionary](https://amzn.github.io/style-dictionary/) with [Tokens Studio](https://tokens.studio/) transforms.
 
-1. **Source**: `src/tokens/figma-tokens.json`
-2. **Generated**: `src/styles/generated/brand-*-tokens.css`
-3. **Mapped**: `src/styles/brands.css` (component-level variables)
-4. **Consumed**: Component styles via `var(--token-name)`
+### Token Pipeline
+
+1. **Source**: `src/tokens/figma-tokens.json` - Export from Figma/Tokens Studio
+2. **Transform**: `build-tokens.js` - Processes and generates brand-specific CSS
+3. **Generated**: `src/styles/generated/brand-*-tokens.css` - Auto-generated CSS variables
+4. **Mapped**: `src/styles/brands.css` - Component-level variable mappings
+5. **Consumed**: Component styles via `var(--token-name)`
+
+### Updating Design Tokens
+
+When you receive updated design tokens from Figma:
+
+1. **Export tokens** from Figma using Tokens Studio plugin
+2. **Replace** the file at `src/tokens/figma-tokens.json` with the new export
+3. **Run the build script** to regenerate CSS variables:
+
+```bash
+node build-tokens.js
+```
+
+4. **Verify** the generated files in `src/styles/generated/`:
+   - `brand-booker-tokens.css` - Brand A (Booker) variables
+   - `brand-venus-tokens.css` - Brand B (Venus) variables
+
+### How the Build Script Works
+
+The `build-tokens.js` script:
+
+- Reads the Figma tokens JSON file
+- Fixes cross-references between token sets (Primitives, Alias, Mapped)
+- Generates separate CSS files for each brand
+- Wraps variables in brand-specific class selectors (`.brand-booker`, `.brand-venus`)
+- Filters out tokens from other brands to keep files clean
+
+### Adding a New Brand
+
+To add a third brand, update `build-tokens.js`:
+
+```javascript
+const brands = [
+  { name: 'brand-booker', tokenKey: 'BrandA' },
+  { name: 'brand-venus', tokenKey: 'BrandB' },
+  { name: 'brand-new', tokenKey: 'BrandC' }  // Add new brand
+];
+```
+
+Then add the corresponding token mappings in `src/styles/brands.css`.
 
 ## Accessibility
 
