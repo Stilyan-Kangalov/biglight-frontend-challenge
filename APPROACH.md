@@ -4,27 +4,76 @@ This document outlines the technical decisions, architecture, and workflow used 
 
 ## Table of Contents
 
-1. [Design-to-Code Workflow](#design-to-code-workflow)
-2. [Token Management](#token-management)
-3. [Theme Switching](#theme-switching)
-4. [Token Update Process](#token-update-process)
-5. [What We Would Do Differently](#what-we-would-do-differently)
-6. [Trade-offs and Limitations](#trade-offs-and-limitations)
+1. [AI-Assisted Development](#ai-assisted-development)
+2. [Design-to-Code Workflow](#design-to-code-workflow)
+3. [Token Management](#token-management)
+4. [Theme Switching](#theme-switching)
+5. [Token Update Process](#token-update-process)
+6. [What We Would Do Differently](#what-we-would-do-differently)
+7. [Trade-offs and Limitations](#trade-offs-and-limitations)
+
+---
+
+## AI-Assisted Development
+
+This project was built using **Cursor** (AI-integrated IDE) and **Gemini 2.0 Flash** as architectural thought partners. AI was leveraged throughout the development process to accelerate implementation while maintaining code quality and architectural consistency.
+
+<details>
+<summary><strong>How AI was Utilized</strong></summary>
+
+#### 1. **Boilerplate Acceleration**
+AI assisted in generating the initial component structures:
+- `forwardRef` patterns for proper ref forwarding
+- TypeScript interfaces and type definitions
+- Component file structure (Card, Button, Input, Dropdown, LoginMagicLink, LoginDrawer)
+
+**Example**: Rapid generation of consistent component skeletons with proper TypeScript typing and Preact patterns.
+
+#### 2. **Style Mapping**
+AI helped translate design specifications into code:
+- Converting Figma hex codes to Tailwind arbitrary properties (`bg-[var(--btn-primary-bg)]`)
+- Creating CVA (Class Variance Authority) variant structures
+- Mapping design tokens to component-level CSS variables in `brands.css`
+
+**Example**: Translating design token names like `mappedBrandASurfaceColourActionPrimary` into semantic component variables like `--btn-primary-bg`.
+
+#### 3. **Documentation**
+AI assisted in drafting technical documentation:
+- This APPROACH.md file was drafted based on architectural decisions
+- README.md structure and content
+- Code comments and inline documentation
+
+**Example**: Converting architectural decisions and implementation details into comprehensive, structured documentation.
+
+</details>
+
+<details>
+<summary><strong>Benefits & Limitations</strong></summary>
+
+### Benefits
+- **Faster Iteration**: Reduced time on repetitive boilerplate code
+- **Consistency**: AI helped maintain consistent patterns across components
+- **Learning**: AI served as a coding partner, suggesting best practices and patterns
+- **Documentation**: Comprehensive documentation that might otherwise be skipped
+
+### Limitations
+- **Architectural Decisions**: All architectural decisions were made by the developer
+- **Code Review**: All AI-generated code was reviewed and validated
+- **Custom Logic**: Complex business logic and token reference resolution required manual implementation
+
+</details>
 
 ---
 
 ## Design-to-Code Workflow
 
-### Overview
-
 Our workflow bridges the gap between design (Figma) and code through a structured token-based pipeline that ensures design consistency and developer efficiency.
 
-### Step-by-Step Process
+<details>
+<summary><strong>Step-by-Step Process</strong></summary>
 
 #### 1. **Design Token Definition (Figma)**
-
 Designers use the **Tokens Studio for Figma** plugin to define design tokens directly in Figma:
-
 - **Primitives**: Base color values, typography scales, spacing units
 - **Alias Tokens**: Semantic naming (e.g., `primary`, `error`, `neutral-dark`)
 - **Mapped Tokens**: Brand-specific mappings (e.g., `BrandA` uses teal, `BrandB` uses cherry)
@@ -51,28 +100,24 @@ Mapped/
 ```
 
 #### 2. **Token Export**
-
 Designers export tokens from Tokens Studio as a JSON file:
 - Export format: Tokens Studio JSON
 - File location: `src/tokens/figma-tokens.json`
 - Contains all token definitions with references and metadata
 
 #### 3. **Token Transformation**
-
-The `build-tokens.js` script processes the exported JSON:
-
-**Technologies Used:**
-- **Style Dictionary**: Core transformation engine
-- **@tokens-studio/sd-transforms**: Handles Tokens Studio-specific formats
+The `build-tokens.js` script processes the exported JSON using **Style Dictionary** and **@tokens-studio/sd-transforms**.
 
 **Process:**
-1. **Read** `figma-tokens.json`
-2. **Fix References**: The script includes custom logic to resolve cross-token references that may be broken during export
-3. **Filter by Brand**: Separates tokens into brand-specific files
-4. **Transform to CSS**: Converts JSON tokens to CSS custom properties
-5. **Generate Files**: Creates `brand-booker-tokens.css` and `brand-venus-tokens.css`
+1. Read `figma-tokens.json`
+2. Fix References: Custom logic to resolve cross-token references
+3. Filter by Brand: Separates tokens into brand-specific files
+4. Transform to CSS: Converts JSON tokens to CSS custom properties
+5. Generate Files: Creates `brand-booker-tokens.css` and `brand-venus-tokens.css`
 
-**Key Code:**
+<details>
+<summary><strong>Key Code Example</strong></summary>
+
 ```javascript
 // Register Tokens Studio transforms
 register(StyleDictionary);
@@ -95,13 +140,19 @@ const sd = new StyleDictionary({
 });
 ```
 
+</details>
+
 #### 4. **Component Variable Mapping**
+The `src/styles/brands.css` file creates an abstraction layer that maps generic component variables to brand-specific design tokens.
 
-The `src/styles/brands.css` file creates an abstraction layer:
+**Why This Layer?**
+- Components don't need to know about brand-specific token names
+- Easy to swap token mappings without changing component code
+- Enables brand-agnostic component development
 
-**Purpose**: Maps generic component variables to brand-specific design tokens
+<details>
+<summary><strong>Example Mapping</strong></summary>
 
-**Example:**
 ```css
 .brand-booker {
   --btn-primary-bg: var(--mappedBrandASurfaceColourActionPrimary);
@@ -114,16 +165,14 @@ The `src/styles/brands.css` file creates an abstraction layer:
 }
 ```
 
-**Why This Layer?**
-- Components don't need to know about brand-specific token names
-- Easy to swap token mappings without changing component code
-- Enables brand-agnostic component development
+</details>
 
 #### 5. **Component Implementation**
+Components consume the mapped variables through CSS custom properties.
 
-Components consume the mapped variables:
+<details>
+<summary><strong>Button Component Example</strong></summary>
 
-**Example - Button Component:**
 ```typescript
 // Button.styles.ts
 export const buttonVariants = cva(
@@ -144,21 +193,21 @@ export const buttonVariants = cva(
 - Styling is centralized through CSS variables
 - Easy to test different brands by changing parent class
 
-#### 6. **Documentation & Testing**
+</details>
 
-**Storybook** provides:
-- Visual documentation of all component states
-- Interactive playground for both brands
-- Accessibility testing integration
-- Component API documentation
+#### 6. **Documentation & Testing**
+**Storybook** provides visual documentation, interactive playground, accessibility testing, and component API documentation.
+
+</details>
 
 ---
 
 ## Token Management
 
-### Token Structure
+Our token architecture follows a three-tier hierarchy: **Primitives → Alias → Mapped**.
 
-Our token architecture follows a three-tier hierarchy:
+<details>
+<summary><strong>Token Structure Details</strong></summary>
 
 #### Tier 1: Primitives
 **Location**: `Primitives/Default/` in JSON
@@ -169,7 +218,9 @@ Base, reusable values that are brand-agnostic:
 - Spacing: Base unit scales
 - Borders: Radius values
 
-**Example:**
+<details>
+<summary><strong>Example</strong></summary>
+
 ```json
 {
   "Primitives": {
@@ -186,6 +237,8 @@ Base, reusable values that are brand-agnostic:
 }
 ```
 
+</details>
+
 #### Tier 2: Alias Tokens
 **Location**: `Alias colours/BrandA` or `Alias colours/BrandB`
 
@@ -194,7 +247,9 @@ Semantic naming that references primitives:
 - `NeutralDark` → Points to grey scale
 - `ErrorDefault` → Points to error color
 
-**Example:**
+<details>
+<summary><strong>Example</strong></summary>
+
 ```json
 {
   "Alias colours": {
@@ -207,6 +262,8 @@ Semantic naming that references primitives:
 }
 ```
 
+</details>
+
 #### Tier 3: Mapped Tokens
 **Location**: `Mapped/BrandA` or `Mapped/BrandB`
 
@@ -215,7 +272,9 @@ Component-specific semantic tokens:
 - `TextColourActionOnPrimary` → Button primary text
 - `BorderColourPassive` → Input border
 
-**Example:**
+<details>
+<summary><strong>Example</strong></summary>
+
 ```json
 {
   "Mapped": {
@@ -227,6 +286,10 @@ Component-specific semantic tokens:
   }
 }
 ```
+
+</details>
+
+</details>
 
 ### Token Consumption Flow
 
@@ -244,13 +307,8 @@ Components (Tailwind/CSS)
 
 ### Variable Naming Convention
 
-**Design Tokens** (from Figma):
-- PascalCase: `mappedBrandASurfaceColourActionPrimary`
-- Descriptive: Indicates brand, category, and purpose
-
-**Component Variables** (in brands.css):
-- Kebab-case: `--btn-primary-bg`
-- Semantic: Describes component and property
+- **Design Tokens** (from Figma): PascalCase, descriptive (e.g., `mappedBrandASurfaceColourActionPrimary`)
+- **Component Variables** (in brands.css): Kebab-case, semantic (e.g., `--btn-primary-bg`)
 
 **Rationale**: Component variables are easier to read and remember for developers, while design tokens maintain their original naming from the design system.
 
@@ -258,12 +316,9 @@ Components (Tailwind/CSS)
 
 ## Theme Switching
 
-### Implementation
-
 Theme switching is achieved through **CSS class-based context switching**:
 
 ```jsx
-// Wrap components in brand class
 <div className="brand-booker">
   <Button variant="primary">Booker Style</Button>
 </div>
@@ -273,60 +328,51 @@ Theme switching is achieved through **CSS class-based context switching**:
 </div>
 ```
 
-### How It Works
+<details>
+<summary><strong>How It Works</strong></summary>
 
-1. **CSS Variable Scoping**: Each brand's tokens are scoped to a class selector:
+1. **CSS Variable Scoping**: Each brand's tokens are scoped to a class selector
+2. **Component Variables Inherit**: Component variables reference brand tokens
+3. **Components Consume**: Components use component variables
+
+<details>
+<summary><strong>CSS Example</strong></summary>
 
 ```css
 .brand-booker {
   --mappedBrandASurfaceColourActionPrimary: #4dc2a7;
-  /* ... all Booker tokens */
-}
-
-.brand-venus {
-  --mappedBrandBSurfaceColourActionPrimary: #901438;
-  /* ... all Venus tokens */
-}
-```
-
-2. **Component Variables Inherit**: Component variables reference brand tokens:
-
-```css
-.brand-booker {
   --btn-primary-bg: var(--mappedBrandASurfaceColourActionPrimary);
 }
 
 .brand-venus {
+  --mappedBrandBSurfaceColourActionPrimary: #901438;
   --btn-primary-bg: var(--mappedBrandBSurfaceColourActionPrimary);
 }
 ```
 
-3. **Components Consume**: Components use component variables:
+</details>
 
-```css
-.button-primary {
-  background-color: var(--btn-primary-bg);
-}
-```
+</details>
 
 ### Advantages
-
-- **No JavaScript Required**: Pure CSS solution, no runtime overhead
-- **Instant Switching**: No re-renders or state management needed
-- **CSS Cascade**: Natural inheritance through the DOM tree
-- **Performance**: No JavaScript bundle size impact
+- ✅ No JavaScript required - Pure CSS solution
+- ✅ Instant switching - No re-renders needed
+- ✅ CSS cascade - Natural inheritance
+- ✅ Performance - No bundle size impact
 
 ### Limitations
+- ❌ Static switching - Requires page reload/remount
+- ❌ No runtime switching - Can't dynamically switch without re-rendering
+- ❌ Class dependency - Components must be wrapped in brand class
 
-- **Static Switching**: Requires page reload or component remount to change brand
-- **No Runtime Switching**: Can't dynamically switch brands without re-rendering
-- **Class Dependency**: Components must be wrapped in brand class
-
-### Alternative Approaches Considered
+<details>
+<summary><strong>Alternative Approaches Considered</strong></summary>
 
 1. **CSS-in-JS with Theme Provider**: Rejected due to bundle size and runtime overhead
 2. **CSS Custom Properties with Data Attributes**: Similar approach but less semantic
 3. **Separate CSS Files per Brand**: Rejected due to code duplication
+
+</details>
 
 ---
 
@@ -334,7 +380,8 @@ Theme switching is achieved through **CSS class-based context switching**:
 
 ### Scenario: Designer Updates Primary Color in Figma
 
-Here's the complete workflow when design tokens change:
+<details>
+<summary><strong>Complete Workflow</strong></summary>
 
 #### Step 1: Designer Updates Figma
 - Designer modifies `PrimaryDefault` color in Tokens Studio
@@ -372,7 +419,10 @@ node build-tokens.js
 - Token structure changes significantly
 - Component logic needs to adapt to new token values
 
-### Example: Primary Color Change
+</details>
+
+<details>
+<summary><strong>Example: Primary Color Change</strong></summary>
 
 **Before:**
 ```css
@@ -395,7 +445,10 @@ node build-tokens.js
 - No component code changes required
 - Works across all components using `--btn-primary-bg`
 
-### Automation Opportunities
+</details>
+
+<details>
+<summary><strong>Automation Opportunities</strong></summary>
 
 **Current State**: Manual process
 - Developer runs `node build-tokens.js`
@@ -407,263 +460,138 @@ node build-tokens.js
 3. **Watch Mode**: Auto-regenerate on file save during development
 4. **Designer Workflow**: Direct integration with Figma API (future)
 
+</details>
+
 ---
 
 ## What We Would Do Differently
 
-### With More Time
+<details>
+<summary><strong>With More Time</strong></summary>
 
-#### 1. **Automated Token Sync**
-- **Current**: Manual export/import from Figma
-- **Improvement**: Figma API integration for automatic token sync
-- **Benefit**: Real-time updates, no manual steps
+1. **Automated Token Sync**: Figma API integration for automatic token sync
+2. **Token Validation**: Schema validation, type checking, reference validation
+3. **Component Token Mapping Documentation**: Auto-generated mapping documentation
+4. **Runtime Theme Switching**: React Context + dynamic CSS variable injection
+5. **Token Versioning**: Semantic versioning for token changes
 
-#### 2. **Token Validation**
-- **Current**: No validation of token structure
-- **Improvement**: Schema validation, type checking, reference validation
-- **Benefit**: Catch errors before they reach components
+</details>
 
-#### 3. **Component Token Mapping Documentation**
-- **Current**: Manual mapping in `brands.css`
-- **Improvement**: Auto-generated mapping documentation
-- **Benefit**: Clear visibility of which tokens map to which components
+<details>
+<summary><strong>With Different Tools</strong></summary>
 
-#### 4. **Runtime Theme Switching**
-- **Current**: Static class-based switching
-- **Improvement**: React Context + dynamic CSS variable injection
-- **Benefit**: User can switch themes without page reload
+1. **CSS-in-JS Solution** (Styled Components / Emotion)
+   - Better TypeScript integration, theme provider pattern
+   - Trade-off: Larger bundle size, runtime overhead
 
-#### 5. **Token Versioning**
-- **Current**: No version tracking
-- **Improvement**: Semantic versioning for token changes
-- **Benefit**: Track breaking changes, rollback capability
+2. **Sass/SCSS Variables**
+   - Better tooling, mixins, functions
+   - Trade-off: Build-time only, no runtime flexibility
 
-### With Different Tools
+3. **Design Tokens Package (npm)**
+   - Versioned, shareable across projects
+   - Trade-off: Additional dependency management
 
-#### 1. **CSS-in-JS Solution (Styled Components / Emotion)**
-- **Why**: Better TypeScript integration, theme provider pattern
-- **Trade-off**: Larger bundle size, runtime overhead
-- **When to Use**: If dynamic theming is critical
+4. **Style Dictionary CLI**
+   - More configuration options, better error handling
+   - Trade-off: Additional setup complexity
 
-#### 2. **Sass/SCSS Variables**
-- **Why**: Better tooling, mixins, functions
-- **Trade-off**: Build-time only, no runtime flexibility
-- **When to Use**: If CSS preprocessing is acceptable
+</details>
 
-#### 3. **Design Tokens Package (npm)**
-- **Why**: Versioned, shareable across projects
-- **Trade-off**: Additional dependency management
-- **When to Use**: Multi-repo architecture
+<details>
+<summary><strong>In a Production Environment</strong></summary>
 
-#### 4. **Style Dictionary CLI**
-- **Why**: More configuration options, better error handling
-- **Trade-off**: Additional setup complexity
-- **When to Use**: Enterprise-scale projects
+1. **Type Safety for Tokens**: Generate TypeScript types from tokens
+2. **Token Testing**: Unit tests, visual regression, accessibility tests
+3. **Performance Optimization**: Critical CSS extraction, lazy-loading, tree-shaking
+4. **Documentation Site**: Auto-generated from Storybook, token explorer
+5. **Designer-Developer Collaboration**: Automated design review, token change notifications
+6. **Error Handling**: Graceful fallbacks, validation, error boundaries
+7. **Accessibility First**: Automatic contrast checking, WCAG compliance validation
 
-### In a Production Environment
-
-#### 1. **Type Safety for Tokens**
-```typescript
-// Generate TypeScript types from tokens
-type TokenKey = 'btn-primary-bg' | 'btn-secondary-bg' | ...;
-type TokenValue = string;
-
-interface DesignTokens {
-  [key: TokenKey]: TokenValue;
-}
-```
-
-**Benefit**: Compile-time validation, autocomplete in IDE
-
-#### 2. **Token Testing**
-- Unit tests for token transformations
-- Visual regression tests for component changes
-- Accessibility tests for color contrast
-
-#### 3. **Performance Optimization**
-- Critical CSS extraction per brand
-- Lazy-load brand-specific CSS
-- Tree-shaking unused tokens
-
-#### 4. **Documentation Site**
-- Auto-generated from Storybook
-- Token explorer/visualizer
-- Component usage guidelines
-- Migration guides for token changes
-
-#### 5. **Designer-Developer Collaboration**
-- Design tokens as source of truth
-- Automated design review process
-- Token change notifications
-- Design QA integration
-
-#### 6. **Error Handling**
-- Graceful fallbacks for missing tokens
-- Token validation in development
-- Production error boundaries
-
-#### 7. **Accessibility First**
-- Automatic contrast ratio checking
-- Token-level accessibility metadata
-- WCAG compliance validation
+</details>
 
 ---
 
 ## Trade-offs and Limitations
 
-### Current Limitations
+<details>
+<summary><strong>Current Limitations</strong></summary>
 
 #### 1. **Manual Token Sync**
-**Issue**: Tokens must be manually exported from Figma and imported into codebase
-
-**Impact**: 
-- Risk of design-code drift
-- Requires developer intervention
-- No real-time sync
-
-**Mitigation**: 
-- Clear documentation of process
-- Regular sync schedule
-- Version control for token files
+- **Issue**: Tokens must be manually exported from Figma
+- **Impact**: Risk of design-code drift, requires developer intervention
+- **Mitigation**: Clear documentation, regular sync schedule
 
 #### 2. **No Runtime Theme Switching**
-**Issue**: Brand switching requires component remount or page reload
-
-**Impact**:
-- Can't build theme switcher UI
-- Limited to static brand context
-
-**Mitigation**:
-- Acceptable for most use cases (single brand per page)
-- Can be enhanced with React Context if needed
+- **Issue**: Brand switching requires component remount or page reload
+- **Impact**: Can't build theme switcher UI
+- **Mitigation**: Acceptable for most use cases (single brand per page)
 
 #### 3. **Reference Resolution Complexity**
-**Issue**: `build-tokens.js` includes custom logic to fix broken references
-
-**Impact**:
-- Fragile dependency on token export format
-- May break if Tokens Studio changes export structure
-- Maintenance burden
-
-**Mitigation**:
-- Well-documented reference resolution logic
-- Tests for common reference patterns
-- Monitor Tokens Studio updates
+- **Issue**: Custom logic to fix broken references
+- **Impact**: Fragile dependency on token export format
+- **Mitigation**: Well-documented logic, monitor Tokens Studio updates
 
 #### 4. **Limited Type Safety**
-**Issue**: CSS variables are strings, no TypeScript validation
-
-**Impact**:
-- Typos in variable names only caught at runtime
-- No autocomplete for token names
-- Refactoring is manual
-
-**Mitigation**:
-- Consistent naming conventions
-- Linting rules
-- Could add TypeScript generation (future)
+- **Issue**: CSS variables are strings, no TypeScript validation
+- **Impact**: Typos only caught at runtime, no autocomplete
+- **Mitigation**: Consistent naming, linting rules
 
 #### 5. **Brand-Specific Token Filtering**
-**Issue**: Each brand gets its own CSS file, but both include all primitives
-
-**Impact**:
-- Some duplication in generated files
-- Larger CSS bundle than necessary
-
-**Mitigation**:
-- Primitives are shared, only brand tokens differ
-- CSS minification reduces impact
-- Could optimize with better filtering (future)
+- **Issue**: Some duplication in generated files
+- **Impact**: Larger CSS bundle than necessary
+- **Mitigation**: Primitives are shared, CSS minification helps
 
 #### 6. **No Token Validation**
-**Issue**: Invalid tokens (e.g., missing references) may not be caught until runtime
-
-**Impact**:
-- Broken styles in production
-- Hard to debug
-
-**Mitigation**:
-- Manual review of generated CSS
-- Visual testing in Storybook
-- Could add validation step (future)
+- **Issue**: Invalid tokens may not be caught until runtime
+- **Impact**: Broken styles in production
+- **Mitigation**: Manual review, visual testing in Storybook
 
 #### 7. **Component Variable Mapping is Manual**
-**Issue**: `brands.css` requires manual updates when new tokens are added
+- **Issue**: `brands.css` requires manual updates when new tokens are added
+- **Impact**: Easy to miss new tokens, inconsistency risk
+- **Mitigation**: Clear documentation, code review process
 
-**Impact**:
-- Developer must know which tokens map to which components
-- Easy to miss new tokens
-- Inconsistency risk
+</details>
 
-**Mitigation**:
-- Clear documentation
-- Code review process
-- Could auto-generate from component usage (future)
-
-### Architectural Trade-offs
+<details>
+<summary><strong>Architectural Trade-offs</strong></summary>
 
 #### CSS Variables vs. CSS-in-JS
-
 **Chosen**: CSS Variables
-- ✅ Zero runtime overhead
-- ✅ Works with any framework
-- ✅ Easy to debug in DevTools
-- ❌ No TypeScript integration
-- ❌ No compile-time validation
+- ✅ Zero runtime overhead, works with any framework, easy to debug
+- ❌ No TypeScript integration, no compile-time validation
 
 #### Class-Based vs. Context-Based Theming
-
 **Chosen**: Class-Based
-- ✅ Simple, no JavaScript needed
-- ✅ Works with server-side rendering
-- ✅ Better performance
-- ❌ No runtime switching
-- ❌ Requires wrapper elements
+- ✅ Simple, no JavaScript needed, works with SSR, better performance
+- ❌ No runtime switching, requires wrapper elements
 
 #### Single File vs. Modular Token Files
-
 **Chosen**: Single file per brand
-- ✅ Simple import structure
-- ✅ All tokens in one place
-- ❌ Larger files
-- ❌ Harder to tree-shake
+- ✅ Simple import structure, all tokens in one place
+- ❌ Larger files, harder to tree-shake
 
-### What's Not Production-Ready
+</details>
 
-#### 1. **Error Handling**
-- No fallbacks for missing tokens
-- No validation of token structure
-- Silent failures possible
+<details>
+<summary><strong>What's Not Production-Ready</strong></summary>
 
-**Production Fix**: Add validation layer, error boundaries, fallback values
+1. **Error Handling**: No fallbacks for missing tokens, no validation, silent failures possible
+2. **Performance**: All brand tokens loaded even if only one brand is used, no code splitting
+3. **Testing**: No automated tests for token transformations, no visual regression tests
+4. **Documentation**: Token mapping not auto-documented, no migration guides
+5. **Developer Experience**: No TypeScript types for tokens, no autocomplete, manual mapping
 
-#### 2. **Performance**
-- All brand tokens loaded even if only one brand is used
-- No code splitting for brand-specific CSS
-- Large CSS bundle
+**Production Fixes Needed:**
+- Add validation layer, error boundaries, fallback values
+- Dynamic imports, critical CSS extraction, brand-specific bundles
+- Unit tests, visual regression, automated accessibility tests
+- Auto-generated docs, token explorer, change logs
+- Type generation, IDE plugins, auto-mapping
 
-**Production Fix**: Dynamic imports, critical CSS extraction, brand-specific bundles
-
-#### 3. **Testing**
-- No automated tests for token transformations
-- No visual regression tests
-- Manual component testing only
-
-**Production Fix**: Unit tests, visual regression, automated accessibility tests
-
-#### 4. **Documentation**
-- Token mapping not auto-documented
-- Component token usage not tracked
-- No migration guides
-
-**Production Fix**: Auto-generated docs, token explorer, change logs
-
-#### 5. **Developer Experience**
-- No TypeScript types for tokens
-- No autocomplete for CSS variables
-- Manual token mapping
-
-**Production Fix**: Type generation, IDE plugins, auto-mapping
+</details>
 
 ### Honest Assessment
 
@@ -693,7 +621,7 @@ interface DesignTokens {
 
 This approach successfully bridges design and code through a token-based architecture that enables multi-brand component development. While there are limitations and areas for improvement, the foundation is solid and can be enhanced incrementally as the project scales.
 
-The key strengths are:
+**Key Strengths:**
 - **Simplicity**: Easy to understand and maintain
 - **Flexibility**: Supports multiple brands with minimal code duplication
 - **Designer-Friendly**: Direct integration with Figma/Tokens Studio
