@@ -105,6 +105,10 @@ export const Venus: Story = {
 };
 
 export const AllStates: Story = {
+  parameters: {
+    layout: 'fullscreen',
+    decorators: [],
+  },
   render: () => {
     // Brand A (Booker) state
     const [bookerDefault, setBookerDefault] = useState<string>('');
@@ -123,8 +127,8 @@ export const AllStates: Story = {
     const [venusSuccess, setVenusSuccess] = useState<string>('Placeholder');
 
     return (
-    <div className="p-8 bg-white min-h-screen max-w-full overflow-x-hidden">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div className="p-4 md:p-8 bg-white min-h-screen w-full max-w-full overflow-x-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 w-full">
       {/* Brand A - Booker */}
       <div className="brand-booker space-y-8">
         <div>
