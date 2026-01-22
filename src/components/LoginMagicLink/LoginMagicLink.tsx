@@ -60,18 +60,25 @@ export const LoginMagicLink = forwardRef<HTMLDivElement, LoginMagicLinkProps>(
     onJoinFamily,
     ...props
   }, ref) => {
-    const [customerType, setCustomerType] = useState<string | undefined>(undefined);
-    const [email, setEmail] = useState('');
-    const [emailTouched, setEmailTouched] = useState(false);
+    // Step 1: State Management
+    const [formState, setFormState] = useState<{ customerType: string; email: string }>({
+      customerType: '',
+      email: '',
+    });
 
-    // Email validation
-    const isValidEmail = (email: string): boolean => {
-      if (!email) return true; // Empty is not an error until touched
+    const [touched, setTouched] = useState<{ customerType: boolean; email: boolean }>({
+      customerType: false,
+      email: false,
+    });
+
+    // Step 2: Validation Logic
+    const isEmailValid = (email: string): boolean => {
+      if (!email) return false;
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return emailRegex.test(email);
     };
 
-    const emailError = emailTouched && email.length > 0 && !isValidEmail(email);
+    const canContinue = formState.customerType !== '' && isEmailValid(formState.email);
 
     // Convert className to string if it's a signal
     const classNameValue =
@@ -79,20 +86,24 @@ export const LoginMagicLink = forwardRef<HTMLDivElement, LoginMagicLinkProps>(
         ? className.value
         : className;
 
+    // Step 3: Component Props - onChange handlers
+    const handleCustomerTypeChange = (value: string | undefined) => {
+      setFormState((prev) => ({ ...prev, customerType: value || '' }));
+      setTouched((prev) => ({ ...prev, customerType: true }));
+    };
+
     const handleEmailChange = (value: string) => {
-      setEmail(value);
+      setFormState((prev) => ({ ...prev, email: value }));
     };
 
     const handleEmailBlur = () => {
-      if (email.length > 0) {
-        setEmailTouched(true);
-      }
+      setTouched((prev) => ({ ...prev, email: true }));
     };
 
     const handleContinue = () => {
-      setEmailTouched(true);
-      if (onContinue && customerType && isValidEmail(email)) {
-        onContinue(customerType, email);
+      setTouched({ customerType: true, email: true });
+      if (onContinue && canContinue) {
+        onContinue(formState.customerType, formState.email);
       }
     };
 
@@ -138,8 +149,8 @@ export const LoginMagicLink = forwardRef<HTMLDivElement, LoginMagicLinkProps>(
           <Dropdown
             label={customerTypeLabel}
             options={customerTypeOptions}
-            value={customerType}
-            onChange={setCustomerType}
+            value={formState.customerType || undefined}
+            onChange={handleCustomerTypeChange}
             brand={brand}
           />
         </div>
@@ -149,10 +160,10 @@ export const LoginMagicLink = forwardRef<HTMLDivElement, LoginMagicLinkProps>(
           <Input
             label={emailLabel}
             placeholder={emailPlaceholder}
-            value={email}
+            value={formState.email}
             onChange={handleEmailChange}
             onBlur={handleEmailBlur}
-            error={emailError}
+            error={touched.email && !isEmailValid(formState.email)}
             brand={brand}
           />
         </div>
@@ -165,6 +176,7 @@ export const LoginMagicLink = forwardRef<HTMLDivElement, LoginMagicLinkProps>(
             icon="none"
             className="w-full"
             onClick={handleContinue}
+            disabled={!canContinue}
           >
             {continueButtonLabel}
           </Button>

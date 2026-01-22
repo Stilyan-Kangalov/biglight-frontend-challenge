@@ -1,5 +1,5 @@
 import { forwardRef } from 'preact/compat';
-import { useState, useRef } from 'preact/hooks';
+import { useState, useRef, useId } from 'preact/hooks';
 import { inputContainerVariants, inputFieldVariants, inputLabelVariants } from './Input.styles';
 import type { InputProps } from './Input.types';
 import { twMerge } from 'tailwind-merge';
@@ -69,6 +69,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const [isFocused, setIsFocused] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
     const combinedRef = (ref as React.RefObject<HTMLInputElement>) || inputRef;
+    const inputId = useId();
 
     // Convert className to string if it's a signal
     const classNameValue = 
@@ -137,6 +138,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         >
           {/* Floating Label */}
           <label
+            htmlFor={inputId}
             className={cn(
               inputLabelVariants({
                 floating: shouldFloatLabel,
@@ -173,6 +175,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
             {/* Actual Input Element */}
             <input
+              id={inputId}
               ref={combinedRef}
               type="text"
               value={value}
