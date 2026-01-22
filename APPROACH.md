@@ -9,8 +9,9 @@ This document outlines the technical decisions, architecture, and workflow used 
 3. [Token Management](#token-management)
 4. [Theme Switching](#theme-switching)
 5. [Token Update Process](#token-update-process)
-6. [What I Would Do Differently](#what-we-would-do-differently)
-7. [Trade-offs and Limitations](#trade-offs-and-limitations)
+6. [Testing](#testing)
+7. [What I Would Do Differently](#what-we-would-do-differently)
+8. [Trade-offs and Limitations](#trade-offs-and-limitations)
 
 ---
 
@@ -459,6 +460,164 @@ node build-tokens.js
 2. **Git Hooks**: Pre-commit hook to regenerate tokens
 3. **Watch Mode**: Auto-regenerate on file save during development
 4. **Designer Workflow**: Direct integration with Figma API (future)
+
+</details>
+
+---
+
+## Testing
+
+Testing in this project focuses on **interaction testing** using Storybook's play functions, ensuring components behave correctly from a user's perspective.
+
+<details>
+<summary><strong>Interaction Testing with Storybook</strong></summary>
+
+### Approach
+
+We use **Storybook's play functions** combined with **@testing-library/preact** and **@testing-library/user-event** to write interaction tests that run directly in Storybook's browser environment.
+
+**Why This Approach?**
+- Tests run in a real browser environment (not JSDOM)
+- Visual feedback in Storybook's Interactions panel
+- Tests are co-located with component stories
+- No separate test runner setup needed
+
+### Implementation Example
+
+The `LoginMagicLink` component includes interaction tests that verify:
+
+1. **Initial State**: Continue button is disabled on initial render
+2. **Form Validation**: Continue button enables after selecting customer type and entering valid email
+3. **Clear Functionality**: Continue button disables again after clearing email input
+
+<details>
+<summary><strong>Code Example</strong></summary>
+
+```typescript
+// LoginMagicLink.stories.tsx
+export const Booker: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const user = userEvent.setup();
+
+    // Test Case 1: Continue button disabled initially
+    const continueButton = canvas.getByRole('button', { name: /continue/i });
+    if (!continueButton.disabled) {
+      throw new Error('Continue button should be disabled on initial render');
+    }
+
+    // Test Case 2: Enable button after form completion
+    const dropdownButton = canvas.getAllByRole('button')
+      .find(btn => btn.getAttribute('aria-haspopup') === 'listbox');
+    await user.click(dropdownButton);
+    const option = await canvas.findByText('Retail Store Owner');
+    await user.click(option);
+    
+    const emailInput = canvas.getByRole('textbox');
+    await user.type(emailInput, 'test@example.com');
+    
+    if (continueButton.disabled) {
+      throw new Error('Continue button should be enabled');
+    }
+
+    // Test Case 3: Disable after clearing
+    const clearButton = canvas.getByRole('button', { name: /clear input/i });
+    await user.click(clearButton);
+    
+    if (!continueButton.disabled) {
+      throw new Error('Continue button should be disabled after clearing');
+    }
+  },
+};
+```
+
+</details>
+
+### Running Tests
+
+Tests run automatically when viewing a story in Storybook:
+1. Navigate to the component story (e.g., `LoginMagicLink > Booker`)
+2. Open the **Interactions** tab at the bottom
+3. Tests execute automatically and show pass/fail status
+4. Click on each step to see what happened during the test
+
+</details>
+
+<details>
+<summary><strong>Accessibility Testing</strong></summary>
+
+### Input Component Fix
+
+During interaction test implementation, we identified and fixed an accessibility issue in the `Input` component:
+
+**Problem**: Labels were not properly associated with input elements, causing:
+- A11y violations: "Every form field needs an associated label"
+- Testing library errors: `getByLabelText` couldn't find associated inputs
+- Screen reader issues: Labels not announced when inputs are focused
+
+**Solution**: Properly associate labels with inputs using:
+- `useId()` hook to generate unique IDs
+- `htmlFor` attribute on label elements
+- `id` attribute on input elements
+
+<details>
+<summary><strong>Code Example</strong></summary>
+
+```typescript
+// Input.tsx
+export const Input = forwardRef<HTMLInputElement, InputProps>(({ label, ...props }, ref) => {
+  const inputId = useId(); // Generate unique ID
+  
+  return (
+    <div>
+      <label htmlFor={inputId}>
+        {label}
+      </label>
+      <input
+        id={inputId}
+        {...props}
+      />
+    </div>
+  );
+});
+```
+
+</details>
+
+**Result**:
+- ✅ A11y errors resolved
+- ✅ `getByLabelText` works correctly in tests
+- ✅ Screen readers properly announce labels
+- ✅ Better keyboard navigation support
+
+</details>
+
+<details>
+<summary><strong>Testing Dependencies</strong></summary>
+
+**Packages Used**:
+- `@testing-library/preact@^3.2.4`: DOM query utilities for Preact
+- `@testing-library/user-event@^14.6.1`: User interaction simulation
+
+**Why Not @storybook/test?**
+- `@storybook/test` version 10.x doesn't exist (latest is 8.6.14)
+- Using testing-library directly provides better compatibility
+- More control over test implementation
+
+</details>
+
+<details>
+<summary><strong>Future Testing Improvements</strong></summary>
+
+**Current State**: Basic interaction tests for one component
+
+**Production Improvements Needed**:
+1. **Unit Tests**: Component logic, utilities, token transformations
+2. **Visual Regression**: Screenshot comparison for all components
+3. **Accessibility Tests**: Automated a11y checks for all components
+4. **Cross-Browser Testing**: Test in multiple browsers
+5. **Performance Tests**: Component render times, bundle sizes
+6. **E2E Tests**: Full user flows (if applicable)
 
 </details>
 
