@@ -9,7 +9,7 @@ This document outlines the technical decisions, architecture, and workflow used 
 3. [Token Management](#token-management)
 4. [Theme Switching](#theme-switching)
 5. [Token Update Process](#token-update-process)
-6. [What We Would Do Differently](#what-we-would-do-differently)
+6. [What I Would Do Differently](#what-we-would-do-differently)
 7. [Trade-offs and Limitations](#trade-offs-and-limitations)
 
 ---
@@ -464,7 +464,7 @@ node build-tokens.js
 
 ---
 
-## What We Would Do Differently
+## What I Would Do Differently
 
 <details>
 <summary><strong>With More Time</strong></summary>
