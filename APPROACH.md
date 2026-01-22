@@ -10,7 +10,7 @@ This document outlines the technical decisions, architecture, and workflow used 
 4. [Theme Switching](#theme-switching)
 5. [Token Update Process](#token-update-process)
 6. [Testing](#testing)
-7. [What I Would Do Differently](#what-we-would-do-differently)
+7. [What I Would Do Differently](#what-i-would-do-differently)
 8. [Trade-offs and Limitations](#trade-offs-and-limitations)
 
 ---
