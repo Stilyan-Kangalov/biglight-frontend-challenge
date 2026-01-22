@@ -50,16 +50,23 @@ const meta: Meta<typeof Input> = {
 export default meta;
 type Story = StoryObj<typeof Input>;
 
+// Extended args type for Storybook controls
+type StoryArgs = {
+  showIcon?: boolean;
+  value?: string;
+};
+
 export const Booker: Story = {
   render: (args) => {
-    const [value, setValue] = useState<string>(args.value || '');
+    const storyArgs = args as unknown as StoryArgs;
+    const [value, setValue] = useState<string>(storyArgs.value || '');
     return (
       <div className="brand-booker max-w-sm mx-auto">
         <Input
           {...(args as any)}
           value={value}
           onChange={(newValue) => setValue(newValue)}
-          icon={args.showIcon ? <ClockIcon /> : undefined}
+          icon={storyArgs.showIcon ? <ClockIcon /> : undefined}
           brand="booker"
         />
       </div>
@@ -79,14 +86,15 @@ export const Booker: Story = {
 
 export const Venus: Story = {
   render: (args) => {
-    const [value, setValue] = useState<string>(args.value || '');
+    const storyArgs = args as unknown as StoryArgs;
+    const [value, setValue] = useState<string>(storyArgs.value || '');
     return (
       <div className="brand-venus max-w-sm mx-auto">
         <Input
           {...(args as any)}
           value={value}
           onChange={(newValue) => setValue(newValue)}
-          icon={args.showIcon ? <ClockIcon /> : undefined}
+          icon={storyArgs.showIcon ? <ClockIcon /> : undefined}
           brand="venus"
         />
       </div>

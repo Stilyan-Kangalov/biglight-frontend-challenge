@@ -13,7 +13,7 @@ const meta: Meta<typeof LoginMagicLink> = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <div style={{ padding: '40px', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ padding: '0 20px', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Story />
       </div>
     ),

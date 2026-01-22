@@ -83,14 +83,14 @@ export const dropdownVariants = cva(
         state: 'default',
         brand: 'venus',
         isOpen: true,
-        class: 'border-[#901438]',
+        class: 'border-2 border-[#901438]',
       },
       {
         state: 'default',
         brand: 'venus',
         isFocused: true,
         isOpen: false,
-        class: 'border-[#901438]',
+        class: 'border-2 border-[#901438]',
       },
       {
         state: 'error',

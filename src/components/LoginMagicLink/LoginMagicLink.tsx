@@ -117,14 +117,14 @@ export const LoginMagicLink = forwardRef<HTMLDivElement, LoginMagicLinkProps>(
           ref={closeButtonRef}
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 text-black hover:opacity-70 transition-opacity bg-transparent border-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--dropdown-border)] focus:ring-offset-2 rounded"
+          className="absolute top-2 right-4 p-2 text-black hover:opacity-70 transition-opacity bg-transparent border-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--dropdown-border)] focus:ring-offset-2 rounded"
           aria-label="Close"
         >
           <CloseIcon />
         </button>
 
         {/* Title */}
-        <h1 className="text-[2.5rem] leading-tight font-medium text-[var(--color-primary-default)] mb-4 pr-8">
+        <h1 className="text-[2.5rem] leading-tight font-medium text-[var(--color-primary-default)] mb-4 pr-8 mt-12">
           {title}
         </h1>
 
