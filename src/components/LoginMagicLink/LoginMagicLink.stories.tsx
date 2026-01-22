@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/preact';
 import { LoginMagicLink } from './LoginMagicLink';
+import type { LoginMagicLinkProps } from './LoginMagicLink.types';
 
 const meta: Meta<typeof LoginMagicLink> = {
   title: 'Components/LoginMagicLink',
@@ -24,16 +25,19 @@ export default meta;
 type Story = StoryObj<typeof LoginMagicLink>;
 
 export const Booker: Story = {
-  render: (args) => (
-    <LoginMagicLink
-      {...args}
-      brand="booker"
-      onClose={() => console.log('Close clicked')}
-      onContinue={(customerType, email) => console.log('Continue:', customerType, email)}
-      onPasswordLogin={() => console.log('Password login clicked')}
-      onJoinFamily={() => console.log('Join family clicked')}
-    />
-  ),
+  render: (args) => {
+    const storyArgs = args as unknown as LoginMagicLinkProps;
+    return (
+      <LoginMagicLink
+        {...storyArgs}
+        brand="booker"
+        onClose={() => console.log('Close clicked')}
+        onContinue={(customerType, email) => console.log('Continue:', customerType, email)}
+        onPasswordLogin={() => console.log('Password login clicked')}
+        onJoinFamily={() => console.log('Join family clicked')}
+      />
+    );
+  },
   args: {
     title: 'Log into your account',
     subtitle: 'Please enter your email for a one-time-only code',
@@ -43,20 +47,23 @@ export const Booker: Story = {
     passwordLoginLabel: 'Login with your password',
     cardTitle: 'Join the family.',
     cardButtonLabel: 'Become a member',
-  },
+  } as any,
 };
 
 export const Venus: Story = {
-  render: (args) => (
-    <LoginMagicLink
-      {...args}
-      brand="venus"
-      onClose={() => console.log('Close clicked')}
-      onContinue={(customerType, email) => console.log('Continue:', customerType, email)}
-      onPasswordLogin={() => console.log('Password login clicked')}
-      onJoinFamily={() => console.log('Join family clicked')}
-    />
-  ),
+  render: (args) => {
+    const storyArgs = args as unknown as LoginMagicLinkProps;
+    return (
+      <LoginMagicLink
+        {...storyArgs}
+        brand="venus"
+        onClose={() => console.log('Close clicked')}
+        onContinue={(customerType, email) => console.log('Continue:', customerType, email)}
+        onPasswordLogin={() => console.log('Password login clicked')}
+        onJoinFamily={() => console.log('Join family clicked')}
+      />
+    );
+  },
   args: {
     title: 'Log into your account',
     subtitle: 'Please enter your email for a one-time-only code',
@@ -66,7 +73,7 @@ export const Venus: Story = {
     passwordLoginLabel: 'Login with your password',
     cardTitle: 'Join the family.',
     cardButtonLabel: 'Become a member',
-  },
+  } as any,
 };
 
 export const BothBrands: Story = {
