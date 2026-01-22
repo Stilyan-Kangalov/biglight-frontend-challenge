@@ -548,7 +548,7 @@ Tests run automatically when viewing a story in Storybook:
 
 ### Input Component Fix
 
-During interaction test implementation, we identified and fixed an accessibility issue in the `Input` component:
+During interaction test implementation, I identified and fixed an accessibility issue in the `Input` component:
 
 **Problem**: Labels were not properly associated with input elements, causing:
 - A11y violations: "Every form field needs an associated label"
