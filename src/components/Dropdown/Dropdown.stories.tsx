@@ -147,8 +147,8 @@ export const AllStates: Story = {
     const [venusSelected, setVenusSelected] = useState<string | undefined>('retail');
 
     return (
-    <div style={{ width: '100%', maxWidth: '100%', margin: '0', padding: '1rem', boxSizing: 'border-box', overflowX: 'hidden', position: 'relative' }} className="bg-white min-h-screen">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8" style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box', margin: '0' }}>
+    <div style={{ width: '100%', maxWidth: '100%', margin: '0', boxSizing: 'border-box', overflowX: 'hidden', position: 'relative' }} className="bg-white min-h-screen px-2 md:px-8 py-4 md:py-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-8" style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box', margin: '0' }}>
       {/* Brand A - Booker */}
       <div className="brand-booker space-y-8">
         <div>
