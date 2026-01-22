@@ -22,7 +22,7 @@ const meta: Meta<typeof Card> = {
   } as ArgTypes,
   decorators: [
     (Story) => (
-      <div style={{ maxWidth: '100%', padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
+      <div style={{ maxWidth: '100%', padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '200px' }}>
         <Story />
       </div>
     ),
