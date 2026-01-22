@@ -4,7 +4,7 @@ A multi-brand design system built with Preact, Tailwind CSS, and Storybook. This
 
 ![Login Magic Link Component - Booker Brand](./docs/login-magic-link-booker.png)
 
-> 📖 **Want to understand our technical approach?** Read our comprehensive [**APPROACH.md**](./APPROACH.md) documentation covering design-to-code workflow, token management, theme switching, and more.
+> 📖 **Want to understand my technical approach?** Read the comprehensive [**APPROACH.md**](./APPROACH.md) documentation covering design-to-code workflow, token management, theme switching, and more.
 
 ## Overview
 
@@ -129,6 +129,22 @@ Design tokens are exported from Figma and transformed into CSS custom properties
 3. **Generated**: `src/styles/generated/brand-*-tokens.css` - Auto-generated CSS variables
 4. **Mapped**: `src/styles/brands.css` - Component-level variable mappings
 5. **Consumed**: Component styles via `var(--token-name)`
+
+### Using Design Tokens in Tailwind
+
+All design tokens are available as custom Tailwind utility classes. See the [**TAILWIND_REFERENCE.md**](./TAILWIND_REFERENCE.md) for a complete reference of all available classes, including:
+
+- **Color utilities**: `bg-primary-default`, `text-neutral-dark`, `border-success-light`, etc.
+- **Typography**: Font families, weights, and sizes
+- **Spacing**: Brand-specific spacing scales
+- **Primitives**: Direct access to grey, orange, green, red, black, and white color scales
+
+**Example:**
+```jsx
+<div className="bg-primary-default text-neutral-white p-4">
+  <h1 className="text-2xl font-bold">Title</h1>
+</div>
+```
 
 ### Updating Design Tokens
 
