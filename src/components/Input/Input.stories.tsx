@@ -107,8 +107,11 @@ export const Venus: Story = {
 export const AllStates: Story = {
   parameters: {
     layout: 'fullscreen',
-    decorators: [],
+    viewport: {
+      defaultViewport: 'responsive',
+    },
   },
+  decorators: [],
   render: () => {
     // Brand A (Booker) state
     const [bookerDefault, setBookerDefault] = useState<string>('');
@@ -127,8 +130,8 @@ export const AllStates: Story = {
     const [venusSuccess, setVenusSuccess] = useState<string>('Placeholder');
 
     return (
-    <div className="p-4 md:p-8 bg-white min-h-screen w-full max-w-full overflow-x-hidden">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 w-full">
+    <div style={{ width: '100%', maxWidth: '100%', margin: '0', padding: '1rem', boxSizing: 'border-box', overflowX: 'hidden', position: 'relative' }} className="bg-white min-h-screen">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8" style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box', margin: '0' }}>
       {/* Brand A - Booker */}
       <div className="brand-booker space-y-8">
         <div>
