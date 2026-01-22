@@ -37,7 +37,7 @@ const meta: Meta<typeof Dropdown> = {
   } as ArgTypes,
   decorators: [
     (Story) => (
-      <div style={{ width: '100%', maxWidth: '100%', padding: '20px', minWidth: '400px' }}>
+      <div style={{ width: '100%', padding: '20px' }}>
         <Story />
       </div>
     ),
