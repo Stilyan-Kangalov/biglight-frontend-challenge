@@ -111,7 +111,13 @@ export const AllStates: Story = {
       defaultViewport: 'responsive',
     },
   },
-  decorators: [],
+  decorators: [
+    (Story) => (
+      <div style={{ width: '100%', maxWidth: '100%', padding: '0', minWidth: '0' }}>
+        <Story />
+      </div>
+    ),
+  ],
   render: () => {
     // Brand A (Booker) state
     const [bookerDefault, setBookerDefault] = useState<string>('');
